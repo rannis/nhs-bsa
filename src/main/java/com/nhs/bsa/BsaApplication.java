@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.validation.Valid;
 import javax.validation.Validation;
+import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.executable.ExecutableValidator;
 //import org.springframework.boot.SpringApplication;
@@ -19,19 +20,13 @@ public class BsaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BsaApplication.class, args);
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
-        ExecutableValidator executableValidator = factory.getValidator().forExecutables();
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        RegularAmount regularAmount = new RegularAmount(
+                new Amount(1,1), Frequency.TWO_WEEK);
+        validator.validate(regularAmount).stream().forEach(violation -> log.info("HELP!!!!!" + violation.getMessage()));
 
-		RegularAmount regularAmount = new RegularAmount(
-				null, null);
-//		log.info("Regular amount in pence: " + regularAmount.getAmount().convertUKAmountToPence());
 	}
 
-
-
-    private static void getExecutableValidator() {
-
-
-    }
 }

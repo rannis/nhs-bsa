@@ -38,6 +38,16 @@ public class BsaApplicationTests {
     }
 
     @Test
+    public void whenCrossParameterValidationWithNullConstructorParameters_thenZeroVoilations() throws NoSuchMethodException {
+
+        Constructor<RegularAmount> constructor = RegularAmount.class.getConstructor(Amount.class, Frequency.class);
+        Object[] parameterValues = { null, null};
+        Set<ConstraintViolation<RegularAmount>> violations = executableValidator.validateConstructorParameters(constructor, parameterValues);
+
+        assertEquals(0, violations.size());
+    }
+
+    @Test
     public void whenCrossParameterValidationWithValidConstructorParameters_thenZeroVoilations() throws NoSuchMethodException {
 
         Constructor<RegularAmount> constructor = RegularAmount.class.getConstructor(Amount.class, Frequency.class);
